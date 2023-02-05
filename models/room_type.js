@@ -11,9 +11,22 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+
+      // relasi: room_type -> booking_order
+      // parent: room_type; child: booking_order
+      // key: id_room_type
+      this.hasMany(models.booking_order, {
+        foreignKey: "id_room_type",
+        as: "booking_order"
+      })
     }
   }
   room_type.init({
+    id_room_type:{
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
     type_room_name: DataTypes.STRING,
     room_price: DataTypes.DOUBLE,
     description: DataTypes.STRING,
@@ -21,6 +34,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'room_type',
+    tableName: 'room_type'
   });
   return room_type;
 };

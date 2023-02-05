@@ -1,5 +1,5 @@
 'use strict';
-module.exports = {
+module.exports = { 
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('booking_order_detail', {
       id_booking_order_detail: {
@@ -9,10 +9,20 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       id_booking_order: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "booking_order",
+          key: "id_booking_order"
+        }
       },
       id_room: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "room",
+          key: "id_room"
+        }
       },
       duration: {
         type: Sequelize.INTEGER

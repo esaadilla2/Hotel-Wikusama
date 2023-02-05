@@ -11,22 +11,50 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+
+      // relasi: booking_order ->  booking_order_detail
+      // parent: booking_order; child: booking_order_detail
+      // key: id_booking_order
+      this.hasMany(models.booking_order_detail, {
+        foreignKey: "id_booking_order",
+        as: "booking_order_detail"
+      })
+
+      // relasi: booking_order -> guest
+      // parent: guest; child: booking_order
+      // key: id_guest
+      this.belongsTo(models.guest, {
+        foreignKey: "id_guest",
+        as: "guest"
+      })
+
+      // relasi: booking_order -> room_type
+      // parent: room_type; child: booking_order
+      // key: id_room_type
+      this.belongsTo(models.room_type, {
+        foreignKey: "id_room_type",
+        as: "room_type"
+      })
     }
   }
   booking_order.init({
+    id_booking_order:{
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
     order_number: DataTypes.INTEGER,
-    guest_name: DataTypes.STRING,
-    guest_email: DataTypes.STRING,
+    id_guest: DataTypes.INTEGER,
     order_date: DataTypes.DATE,
     checkIn_date: DataTypes.DATE,
     checkOut_date: DataTypes.DATE,
     rooms_amount: DataTypes.INTEGER,
     id_room_type: DataTypes.INTEGER,
-    order_status: DataTypes.ENUM,
-    id_user: DataTypes.INTEGER
+    order_status: DataTypes.ENUM('new','check_in','check_out')
   }, {
     sequelize,
     modelName: 'booking_order',
+    tableName: 'booking_order'
   });
   return booking_order;
 };
